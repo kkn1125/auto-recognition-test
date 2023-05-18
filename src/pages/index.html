@@ -1,0 +1,22 @@
+<div>
+  <pre>
+    pubIp: <%= pubIp %>
+    privIp: <%= privIp %>
+  </pre>
+  <div><%= JSON.stringify(dbs) %></div>
+  <ol>
+    <% for (row of dbs[0].tables[0].objects) {%>
+    <li>
+      <div><%=row.pk%></div>
+      <div><%=row.name%></div>
+      <div><%=row.age%></div>
+    </li>
+    <% } %>
+  </ol>
+</div>
+
+<% if(isYou) { %> <%- `
+<script>
+  alert("로그인을 유지하시겠습니까?");
+</script>
+` %> <%}%>

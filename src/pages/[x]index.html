@@ -1,0 +1,103 @@
+<div>
+  <p>param <%= username %></p>
+  <p><%= items.length %></p>
+  <ol>
+    <% for(let item of items) {%>
+    <li><%= item.name %></li>
+    <% } %>
+  </ol>
+  <pre>
+    <%= pubIp %>
+    <%= privIp %>
+  </pre>
+  <p><%= JSON.stringify(dbs) %></p>
+  <ol>
+    <% for (let db of dbs) { %>
+    <li><%= db.tables.length %></li>
+    <% } %>
+  </ol>
+  <form action="/db" method="post" target="test">
+    <label>
+      db name
+      <input type="text" name="name" value="<%= useDB %>" />
+    </label>
+    <button type="submit" onsubmit="(e)=>{e.preventDefault(); return false};">
+      등록
+    </button>
+  </form>
+  <form action="/table" method="post" target="test">
+    <label>
+      db name
+      <input type="text" name="dbName" value="<%= useDB %>" />
+    </label>
+    <label>
+      table name
+      <input type="text" name="tableName" />
+    </label>
+    <button type="submit" onsubmit="(e)=>{e.preventDefault(); return false};">
+      등록
+    </button>
+  </form>
+
+  <form action="/row" method="post" target="test">
+    <label>
+      db name
+      <input type="text" name="dbName" value="<%= useDB %>" />
+    </label>
+    <label>
+      table name
+      <input type="text" name="tableName" />
+    </label>
+
+    <br />
+
+    <h5>row</h5>
+    <button type="button" id="addBtn">➕ 로우 추가</button>
+    <br />
+    <label>
+      key
+      <input type="text" name="col[key]" />
+    </label>
+    <label>
+      type
+      <input type="text" name="col[type]" />
+    </label>
+    <label>
+      value
+      <input type="text" name="col[value]" />
+    </label>
+    <br />
+    <div id="added"></div>
+    <br />
+    <button type="submit" onsubmit="(e)=>{e.preventDefault(); return false};">
+      등록
+    </button>
+  </form>
+  <iframe name="test" frameborder="0"></iframe>
+</div>
+
+<script>
+  let num = 1;
+  const form = (num) => `<br /> <label>
+    key
+    <input type="text" name="col${num}[key]" />
+  </label>
+  <label>
+    type
+    <input type="text" name="col${num}[type]" />
+  </label>
+  <label>
+    value
+    <input type="text" name="col${num}[value]" />
+  </label>`;
+  const added = document.querySelector("#added");
+  const addBtn = document.querySelector("#addBtn");
+  addBtn.addEventListener("click", () => {
+    const children = new DOMParser().parseFromString(
+      form((num += 1)),
+      "text/html"
+    ).body.children;
+    console.log(children);
+    added.append(...children);
+  });
+</script>
